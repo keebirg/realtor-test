@@ -10,7 +10,10 @@ import {
     answersOneQuestionType
 } from "../../state/answerData";
 import {v1} from "uuid";
-import {pink} from "@mui/material/colors";
+import {
+    pink,
+    red
+} from "@mui/material/colors";
 
 type AnswersMapListPropsType = {
     onKeyDown?:(event: KeyboardEvent<HTMLDivElement>)=>void
@@ -27,7 +30,7 @@ export const AnswersMapList = (props: AnswersMapListPropsType) => {
         sx = {
             '&.Mui-checked':
                 {
-                    color: pink[600],
+                    color: red[500],
                 }
             ,
         }

@@ -31,13 +31,13 @@ export const Main = () => {
     const [arrayNumbersQuestions, setArrayNumbersQuestions] = useState<Array<number>>([])
     const [arrayAnswerResponse, setArrayAnswerResponse] = useState<Array<number>>([]) //ответы отвеченых
 
-    const updateName = (newName:string) => {
+    const updateName = (newName: string) => {
         setName(newName);
         sessionStorage.setItem('name', JSON.stringify(newName))
     }
 
     const onclickStarted = () => {
-        let arrayRandom=createRandomArray(questionsData.length)
+        let arrayRandom = createRandomArray(questionsData.length)
         setArrayNumbersQuestions(arrayRandom)
         sessionStorage.setItem('arrayNumbersQuestions', JSON.stringify(arrayRandom))
 
@@ -85,7 +85,7 @@ export const Main = () => {
         sessionStorage.setItem('arrayAnswerResponse', JSON.stringify(newArrayAnswerResponse))
 
         if (сurrentNumberQuestion < questionsData.length - 1) {
-            let tempCounter=сurrentNumberQuestion + 1
+            let tempCounter = сurrentNumberQuestion + 1
             setCurrentNumberQuestion(tempCounter)
             sessionStorage.setItem('сurrentNumberQuestion', JSON.stringify(tempCounter))
         } else {
@@ -143,17 +143,19 @@ export const Main = () => {
                 setName={updateName}
                 name={name}/>}
 
-            {testFlag && <Test onClickComplete={onClickComplete}
-                               question={getQuestion(сurrentNumberQuestion)}
-                               answers={getListAnswers(сurrentNumberQuestion)}
-                               onClickAnswer={onClickAnswer}/>}
+            {testFlag && <Test
+                onClickComplete={onClickComplete}
+                question={getQuestion(сurrentNumberQuestion)}
+                answers={getListAnswers(сurrentNumberQuestion)}
+                onClickAnswer={onClickAnswer}/>}
 
-            {endFlag && <End onclickRepeat={onClickRepeat}
-                             arrayNumberQuestionsError={getArrayNumberQuestionsError()}
-                             getQuestion={getQuestion}
-                             getListAnswers={getListAnswers}
-                             counterAnswered={arrayAnswerResponse.length}
-                             arrayAnswerResponse={arrayAnswerResponse}/>}
+            {endFlag && <End
+                onclickRepeat={onClickRepeat}
+                arrayNumberQuestionsError={getArrayNumberQuestionsError()}
+                getQuestion={getQuestion}
+                getListAnswers={getListAnswers}
+                counterAnswered={arrayAnswerResponse.length}
+                arrayAnswerResponse={arrayAnswerResponse}/>}
 
         </MainStyled>
     );

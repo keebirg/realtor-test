@@ -1,5 +1,6 @@
 import React, {
     KeyboardEvent,
+    useState,
 } from 'react';
 
 import {
@@ -15,54 +16,67 @@ import {Container} from "../../components/Container";
 import {AnswersMapList} from "./AnswersMapList";
 
 type testPropsType = {
-    question:string
+    question: string
     onClickComplete: () => void
-    answers:answersOneQuestionType
-    onClickAnswer:(сurrentValue: string)=>void
+    answers: answersOneQuestionType
+    onClickAnswer: (сurrentValue: string) => void
 }
 
 export const Test = (props: testPropsType) => {
 
     const [сurrentValue, setCurrentValue] = React.useState('');
 
+    const [error, setError] = useState('')
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setError('')
         setCurrentValue((event.target as HTMLInputElement).value);
     };
 
 
     const onClickAnswer = () => {
-        setCurrentValue('');
-        props.onClickAnswer(сurrentValue);
+        if (сurrentValue) {
+            setCurrentValue('');
+            props.onClickAnswer(сurrentValue);
+        } else {
+            setError('error')
+        }
+
     }
 
-    const onKeyDownHandler=(event: KeyboardEvent<HTMLDivElement>)=>{
-        if(event.key==='Enter') onClickAnswer();
+    const onKeyDownHandler = (event: KeyboardEvent<HTMLDivElement>) => {
+        if (event.key === 'Enter') onClickAnswer();
 
     }
 
+    type colorType = "error"
     return (
 
         <TestStyled>
             <Container>
-                    <Block >
-                        <Typography variant={'h6'}>{props.question}</Typography>
-                        <AnswersMapList
-                            onKeyDown={onKeyDownHandler}
-                            сurrentValue={сurrentValue}
-                            handleChange={handleChange}
-                            answersOneQuestion={props.answers}/>
+                <Block>
+                    <Typography variant={'h6'}>{props.question}</Typography>
+                    <AnswersMapList
+                        onKeyDown={onKeyDownHandler}
+                        сurrentValue={сurrentValue}
+                        handleChange={handleChange}
+                        answersOneQuestion={props.answers}/>
 
-                        <ButtonGroupStyled>
+                    <ButtonGroupStyled>
+                        {error ?
+                            <Button color={"error"} onClick={onClickAnswer} variant="contained">
+                                Ответить
+                            </Button> :
                             <Button onClick={onClickAnswer} variant="contained">
                                 Ответить
                             </Button>
+                        }
 
-                            <Button onClick={() => props.onClickComplete()} variant="contained">
-                                Завершить
-                            </Button>
-                        </ButtonGroupStyled>
-                    </Block>
+                        <Button onClick={() => props.onClickComplete()} variant="contained">
+                            Завершить
+                        </Button>
+                    </ButtonGroupStyled>
+                </Block>
             </Container>
         </TestStyled>
     );
@@ -90,10 +104,10 @@ export const Block = styled.div`
   padding: 15px;
 `
 
-const FlexWrapper=styled.div`
-    display: flex;
+const FlexWrapper = styled.div`
+  display: flex;
   flex-direction: column;
   align-items: flex-end;
   justify-content: space-around;
-  
+
 `
