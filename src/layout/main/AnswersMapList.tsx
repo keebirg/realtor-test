@@ -4,7 +4,7 @@ import {
     Radio,
     RadioGroup
 } from '@mui/material';
-import React from 'react';
+import React, {KeyboardEvent} from 'react';
 import styled from "styled-components";
 import {
     answersOneQuestionType
@@ -13,6 +13,7 @@ import {v1} from "uuid";
 import {pink} from "@mui/material/colors";
 
 type AnswersMapListPropsType = {
+    onKeyDown?:(event: KeyboardEvent<HTMLDivElement>)=>void
     answersOneQuestion: answersOneQuestionType
     сurrentValue: string
     handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void
@@ -35,12 +36,13 @@ export const AnswersMapList = (props: AnswersMapListPropsType) => {
 
 return (
     <FlexWrapper>
-        <FormControl>
+        <FormControl onKeyDown={props.onKeyDown}>
             <RadioGroup
                 aria-labelledby="demo-controlled-radio-buttons-group"
                 name="controlled-radio-buttons-group"
                 value={props.сurrentValue}
                 onChange={(event) => props.handleChange(event)}
+
             >
                 {props.answersOneQuestion.map((answer) => {
                     return <FormControlLabel key={v1()} value={answer.id} control={<Radio

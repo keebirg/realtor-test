@@ -1,12 +1,22 @@
 import {
     answers,
+    answersOneQuestionType,
     answersType
 } from "./answerData";
 
+type getAnswerOneQuestion = {
+    type: 'GET-ANSWER-ONE-QUESTION'
+    numberQuestion: number
+}
+
 type actionType = {
-    type: string
+    type:string
 }
 
 export const answerReducer = (state: answersType = answers, action: actionType): answersType => {
-    return state;
+    switch (action.type) {
+        default:
+            return state;
+    }
 }
+

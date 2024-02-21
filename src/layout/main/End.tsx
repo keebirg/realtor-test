@@ -1,7 +1,5 @@
 import React from 'react';
-import {useSelector} from "react-redux";
-import {AppRootState} from "../../state/store";
-import {questionsType} from "../../state/questionsData";
+
 import styled from "styled-components";
 import {Container} from "../../components/Container";
 import {
@@ -11,72 +9,48 @@ import {
 import {
     RestartAltOutlined
 } from "@mui/icons-material";
-import {answersType} from "../../state/answerData";
 import {
-    answerCorrectedDataType
-} from "../../state/answerCorrectedData";
+    answersOneQuestionType,
+} from "../../state/answerData";
+
 import {AnswersMapList} from "./AnswersMapList";
 import {Block} from "./Test";
 import {v1} from "uuid";
 
 type endPropsType = {
     onclickRepeat: () => void
+    arrayNumberQuestionsError: Array<number>
+    getQuestion: (NumberQuestion: number) => string
+    getListAnswers: (NumberQuestion: number) => answersOneQuestionType
+    counterAnswered: number
+    arrayAnswerResponse: Array<number>
 }
 
 export const End = (props: endPropsType) => {
 
-    const answersData = useSelector<AppRootState, answersType>(state => state.answers)
-    const questionsData = useSelector<AppRootState, questionsType>(state => state.questions)
-    const answerCorrectedData = useSelector<AppRootState, answerCorrectedDataType>(state => state.answerCorrected)
-
-    const getBackValue = (key: string) => {
-        const tempValue = sessionStorage.getItem(key)
-        if (tempValue) {
-            return JSON.parse(tempValue)
-        }
-    }
-
-
-    let arrayAnsweredQuestionError = [] //массив номеров вопросов на которые не ответили
-    let arrayAnsweredError: Array<string> = [] //массив неправильных ответов
-    let counterAnswered = 0; // счетчик отвеченых всего
-    let counterAnsweredError = 0; // счетчик отвеченых неправильно
-    for (let i = 0; i < questionsData.length; i++) {
-        let answeredQuestion: string = getBackValue(JSON.stringify(i))
-
-        if (answeredQuestion) { //проверка отвечал ли на вопрос
-            counterAnswered++;
-            if (Number(answeredQuestion) !== answerCorrectedData[i]) {//проверка правильно ли ответил, если не правильно выполняем
-                counterAnsweredError++;
-                arrayAnsweredQuestionError.push(i);
-                arrayAnsweredError.push(answeredQuestion);
-            }
-        }
-
-    }
 
     let errorFlag = false;
-    if (arrayAnsweredQuestionError[0] !== undefined) errorFlag = true;
-    console.log(errorFlag)
+    if (props.arrayNumberQuestionsError[0] !== undefined) errorFlag = true;
+
     return (
         <EndStyled>
             <Container>
                 <FlexWrapper>
                     <Typography variant={'h6'}>Общее колличество вопросов на которые вы
-                        ответили {counterAnswered}</Typography>
+                        ответили ({props.counterAnswered})</Typography>
 
-                    {errorFlag ? <Typography variant={'h6'} color={'red'}>Ваши ошибки</Typography> :
+                    {errorFlag ? <Typography variant={'h6'} color={'red'}>Ваши ошибки ({props.arrayNumberQuestionsError.length})</Typography> :
                         <Typography variant={'h6'} color={'seagreen'}>Все правильно</Typography>}
 
-                    {arrayAnsweredQuestionError.map((AnsweredQuestionError, index) => {
+                    {props.arrayNumberQuestionsError.map((numberQuestionsError, index) => {
                         return (
                             <Block key={v1()}>
-                                <Typography variant={'h6'}>{questionsData[AnsweredQuestionError]}</Typography>
+                                <Typography variant={'h6'}>{props.getQuestion(numberQuestionsError)}</Typography>
                                 <AnswersMapList
-                                    сurrentValue={arrayAnsweredError[index]}
+                                    сurrentValue={props.arrayAnswerResponse[numberQuestionsError].toString()}
                                     handleChange={() => {
                                     }}
-                                    answersOneQuestion={answersData[AnsweredQuestionError]}
+                                    answersOneQuestion={props.getListAnswers(numberQuestionsError)}
                                     error={true}/>
                             </Block>
                         )

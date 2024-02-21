@@ -1,16 +1,11 @@
 import React, {
-    useEffect,
-    useState
+    KeyboardEvent,
 } from 'react';
+
 import {
-    useDispatch,
-    useSelector
-} from "react-redux";
-import {AppRootState} from "../../state/store";
-import {
+    answersOneQuestionType,
     answersType
 } from "../../state/answerData";
-import {questionsType} from "../../state/questionsData";
 import styled from "styled-components";
 import {
     Button,
@@ -20,57 +15,43 @@ import {Container} from "../../components/Container";
 import {AnswersMapList} from "./AnswersMapList";
 
 type testPropsType = {
+    question:string
     onClickComplete: () => void
+    answers:answersOneQuestionType
+    onClickAnswer:(сurrentValue: string)=>void
 }
 
 export const Test = (props: testPropsType) => {
-    const dispatch = useDispatch()
-    const questionsData = useSelector<AppRootState, questionsType>(state => state.questions)
-    const answersData = useSelector<AppRootState, answersType>(state => state.answers)
 
-    const [сurrentNumberQuestion, setCurrentNumberQuestion] = useState(0)
     const [сurrentValue, setCurrentValue] = React.useState('');
-
-    const getBackSaveValue = (key: string, setFunction: (value: (any)) => void) => {
-        const tempValue = sessionStorage.getItem(key)
-        if (tempValue) {
-            setFunction(JSON.parse(tempValue))
-        }
-    }
-
-    useEffect(() => {
-        getBackSaveValue('сurrentNumberQuestion', setCurrentNumberQuestion)
-    }, [])
-
-    useEffect(() => {
-        sessionStorage.setItem('сurrentNumberQuestion', JSON.stringify(сurrentNumberQuestion))
-    }, [сurrentNumberQuestion])
 
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setCurrentValue((event.target as HTMLInputElement).value);
     };
 
+
     const onClickAnswer = () => {
-        sessionStorage.setItem(JSON.stringify(сurrentNumberQuestion), JSON.stringify(сurrentValue))
         setCurrentValue('');
-        if (сurrentNumberQuestion < questionsData.length-1) {
-            setCurrentNumberQuestion(сurrentNumberQuestion + 1)
-        } else {
-            props.onClickComplete();
-        }
+        props.onClickAnswer(сurrentValue);
+    }
+
+    const onKeyDownHandler=(event: KeyboardEvent<HTMLDivElement>)=>{
+        if(event.key==='Enter') onClickAnswer();
 
     }
 
     return (
+
         <TestStyled>
             <Container>
-                    <Block>
-                        <Typography variant={'h6'}>{questionsData[сurrentNumberQuestion]}</Typography>
+                    <Block >
+                        <Typography variant={'h6'}>{props.question}</Typography>
                         <AnswersMapList
+                            onKeyDown={onKeyDownHandler}
                             сurrentValue={сurrentValue}
                             handleChange={handleChange}
-                            answersOneQuestion={answersData[сurrentNumberQuestion]}/>
+                            answersOneQuestion={props.answers}/>
 
                         <ButtonGroupStyled>
                             <Button onClick={onClickAnswer} variant="contained">

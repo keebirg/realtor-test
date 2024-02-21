@@ -1,6 +1,7 @@
 import React, {
+    KeyboardEvent,
     ChangeEvent,
-    useState
+    useState,
 } from 'react';
 import {
     Button,
@@ -10,7 +11,7 @@ import SendIcon from "@mui/icons-material/Send";
 import styled from "styled-components";
 
 type StartTestPropsType={
-    clickStarted:()=>void
+    onclickStarted:()=>void
     setName:(str:string)=>void
     name:string
 }
@@ -26,14 +27,15 @@ export const StartTest = (props: StartTestPropsType) => {
             setError("Введите имя");
             return;
         }
-        props.setName('')
-        props.clickStarted();
+        props.onclickStarted();
     }
 
     const onKeyUpHandler = () => setError('');
-
+    const onKeyDownHandler=(event: KeyboardEvent<HTMLDivElement>)=>{
+        if(event.key==='Enter') start();
+    }
     return (
-        <StartTestStyled>
+        <StartTestStyled onKeyDown={onKeyDownHandler}>
             <TextField
                 value={props.name}
                 onChange={nameChangeHandler}
@@ -42,7 +44,7 @@ export const StartTest = (props: StartTestPropsType) => {
                 label="Введите имя"
                 variant="outlined"/>
 
-            <Button onClick={start} size={"large"} variant="contained" endIcon={<SendIcon/>}>
+            <Button  onClick={start} size={"large"} variant="contained" endIcon={<SendIcon/>}>
                 Начать тест
             </Button>
         </StartTestStyled>
