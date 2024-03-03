@@ -1,7 +1,7 @@
 import React from 'react';
 import iconsSprite from '../assets/image/AH.svg'
 
-export type iconIdType="ah" | "instagram" | "telegram" | "vk"
+export type iconIdType= "instagram" | "vk" | "website"
 
 type IconPropsType = {
     iconId: iconIdType

@@ -19,8 +19,9 @@ type AnswersMapListPropsType = {
     onKeyDown?:(event: KeyboardEvent<HTMLDivElement>)=>void
     answersOneQuestion: answersOneQuestionType
     сurrentValue: string
+    trueValue?:string
     handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void
-    error?: boolean
+    error: boolean
 }
 
 export const AnswersMapList = (props: AnswersMapListPropsType) => {

@@ -60,7 +60,8 @@ export const Test = (props: testPropsType) => {
                         onKeyDown={onKeyDownHandler}
                         сurrentValue={сurrentValue}
                         handleChange={handleChange}
-                        answersOneQuestion={props.answers}/>
+                        answersOneQuestion={props.answers}
+                        error={false}/>
 
                     <ButtonGroupStyled>
                         {error ?

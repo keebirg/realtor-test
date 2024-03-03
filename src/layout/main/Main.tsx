@@ -18,6 +18,7 @@ import {createRandomArray} from "./createRandomArray";
 import {answerCorrectedDataType} from "../../state/answerCorrectedData";
 
 export const Main = () => {
+
     const questionsData = useSelector<AppRootState, questionsType>(state => state.questions)
     const answersData = useSelector<AppRootState, answersType>(state => state.answers)
     const answerCorrectedData = useSelector<AppRootState, answerCorrectedDataType>(state => state.answerCorrected)
@@ -109,7 +110,7 @@ export const Main = () => {
         let arrayNumberQuestionsError = [] //массив номеров вопросов на которые ответили не правильно
 
         for (let i = 0; i < arrayAnswerResponse.length; i++) {
-            if (arrayAnswerResponse[i] !== answerCorrectedData[getNumber(i)]) {
+            if (arrayAnswerResponse[i] !== answerCorrectedData[getNumber(i)].correctData) {
                 arrayNumberQuestionsError.push(i)
             }
         }

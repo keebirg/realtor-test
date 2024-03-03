@@ -5,19 +5,18 @@ import {
 } from "../../components/Icon";
 import styled from "styled-components";
 import {theme} from "../../styles/Theme";
-import {Typography} from "@mui/material";
 
 const SocialItemData: Array<{ iconId: iconIdType, href: string }> = [
-    {iconId: "instagram", href: "#"},
-    {iconId: "telegram", href: "#"},
-    {iconId: "vk", href: "#"},
+    {iconId: "instagram", href: "https://www.instagram.com/tvoyatlas.ru/"},
+    {iconId: "vk", href: "https://vk.com/public112976995"},
+    {iconId: "website", href: "https://атласнедвижимости.рф/"},
 ]
 
 export const Footer = () => {
     return (
         <StyledFooter>
             <FlexWrapper>
-                <Typography variant={'subtitle1'}>Agent 007</Typography>
+                {/*<Typography variant={'subtitle1'}>Атлас Недвижимости</Typography>*/}
                 <SocialList>
                     {SocialItemData.map((t, index) => {
                         return (
