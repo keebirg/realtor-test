@@ -36,7 +36,7 @@ export let answerCorrectedData: answerCorrectedDataType = [
     {"idNumber": 29, "correctData": 1},
     {"idNumber": 30, "correctData": 2},
     {"idNumber": 31, "correctData": 3},
-    {"idNumber": 32, "correctData": 1},
+    {"idNumber": 32, "correctData": 2},
     {"idNumber": 33, "correctData": 4},
     {"idNumber": 34, "correctData": 2},
     {"idNumber": 35, "correctData": 2},
